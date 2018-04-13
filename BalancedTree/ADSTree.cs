@@ -40,44 +40,53 @@ namespace BalancedTree
         // Inserts a node into the tree and maintains it's balance
         public void Insert(int value)
         {
-            /*if(Root == null)
+            var newNode = new ADSNode
             {
-                Root = new ADSNode
-                {
-                    Key = value,
-                    Height = 0,
-                    Cardinality = 1
-                };
+                Key = value,
+                Cardinality = 1,
+                Height = 0
+            };
 
+            if (Root == null)
+            {
+                Root = newNode;
                 return;
-            }*/
+            }
 
             ADSNode current = Root;
+            ADSNode parent;
 
-            while(current != null)
+            while (true)
             {
-                if(value <= Root.Key)
+                parent = current;
+
+                if (value < current.Key)
                 {
-                    current = Root.Left;
+                    current = current.Left;
+
+                    if (current == null)
+                    {
+                        parent.Left = newNode;
+                        break;
+                    }
                 }
                 else
                 {
-                    current = Root.Right;
+                    current = current.Right;
+
+                    if (current == null)
+                    {
+                        parent.Right = newNode;
+                        break;
+                    }
                 }
             }
-
-            current = new ADSNode
-            {
-                Key = value,
-                Height = 0,
-                Cardinality = 1
-            };
         }
 
         // Print the tree in a particular order
         public void PrintTree(TraverseOrder order)
         {
-
+            
         }
     }
 }
