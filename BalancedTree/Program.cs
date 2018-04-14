@@ -11,22 +11,24 @@ namespace BalancedTree
         static void Main(string[] args)
         {
             var tree = new ADSTree();
+            var values = new List<int> { 43, 18, 22, 9, 21, 6, 8, 20, 63, 50 };
 
-            tree.Insert(43);
-            tree.Insert(18);
-            tree.Insert(22);
-            tree.Insert(9);
-            tree.Insert(21);
-            tree.Insert(6);
-            tree.Insert(8);
-            tree.Insert(20);
-            tree.Insert(63);
-            tree.Insert(50);
+            foreach(int value in values)
+            {
+                tree.Insert(value);
+
+                var imbalancedNode = tree.GetImbalancedNode(tree.GetRoot());
+
+                if (imbalancedNode != null)
+                {
+                    Console.WriteLine(imbalancedNode.Key);
+                    break;
+                }
+            }
 
             tree.PrintTree(TraverseOrder.InOrder);
 
-            Console.WriteLine(tree.RootHeight());
-
+            Console.WriteLine(tree.GetRoot().Height);
             Console.ReadLine();
         }
     }

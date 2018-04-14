@@ -23,11 +23,26 @@ namespace BalancedTree
             public ADSNode Right;
             public int Key;
             public int Cardinality; // Increment each time duplicates are added
-            // public int Height;
-
-            public int Height()
+            public int Height
             {
-                return Math.Max(Left?.Height() ?? -1, Right?.Height() ?? -1) + 1;
+                get
+                {
+                    return Math.Max(Left?.Height ?? -1, Right?.Height ?? -1) + 1;
+                }
+            }
+            public int LeftHeight
+            {
+                get
+                {
+                    return (Left?.Height ?? -1) + 1;
+                }
+            }
+            public int RightHeight
+            {
+                get
+                {
+                    return (Right?.Height ?? -1) + 1;
+                }
             }
         }
 
@@ -83,16 +98,31 @@ namespace BalancedTree
             }
         }
 
+        public ADSNode GetImbalancedNode(ADSNode node)
+        {
+            if (node == null)
+            {
+                return null;
+            }
+
+            // TODO: this isn't a height, it should be the number of children
+            if (Math.Abs(node.LeftHeight - node.RightHeight) > 1)
+            {
+                return node;
+            }
+
+            return GetImbalancedNode(node?.Left) ?? GetImbalancedNode(node?.Right);
+        }
+
         // Print the tree in a particular order
         public void PrintTree(TraverseOrder order)
         {
-            
+
         }
 
-        // function for testing the height function
-        public int RootHeight()
+        public ADSNode GetRoot()
         {
-            return Root.Height();
+            return Root;
         }
     }
 }
