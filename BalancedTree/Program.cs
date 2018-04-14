@@ -24,7 +24,9 @@ namespace BalancedTree
             tree.Insert(50);
 
             tree.PrintTree(TraverseOrder.InOrder);
+
             Console.WriteLine(tree.RootHeight());
+
             Console.ReadLine();
         }
     }

@@ -27,13 +27,8 @@ namespace BalancedTree
 
             public int Height()
             {
-                return Math.Max(Left?.Height() ?? 0, Right?.Height() ?? 0) + 1;
+                return Math.Max(Left?.Height() ?? -1, Right?.Height() ?? -1) + 1;
             }
-        }
-
-        public int RootHeight()
-        {
-            return Root.Height();
         }
 
         public ADSTree()
@@ -92,6 +87,12 @@ namespace BalancedTree
         public void PrintTree(TraverseOrder order)
         {
             
+        }
+
+        // function for testing the height function
+        public int RootHeight()
+        {
+            return Root.Height();
         }
     }
 }
