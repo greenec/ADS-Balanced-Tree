@@ -22,8 +22,18 @@ namespace BalancedTree
             public ADSNode Left;
             public ADSNode Right;
             public int Key;
-            public int Cardinality;  //  Increment each time duplicates are added
-            public int Height;  // Height of this node
+            public int Cardinality; // Increment each time duplicates are added
+            // public int Height;
+
+            public int Height()
+            {
+                return Math.Max(Left?.Height() ?? 0, Right?.Height() ?? 0) + 1;
+            }
+        }
+
+        public int RootHeight()
+        {
+            return Root.Height();
         }
 
         public ADSTree()
@@ -40,12 +50,7 @@ namespace BalancedTree
         // Inserts a node into the tree and maintains it's balance
         public void Insert(int value)
         {
-            var newNode = new ADSNode
-            {
-                Key = value,
-                Cardinality = 1,
-                Height = 0
-            };
+            var newNode = new ADSNode { Key = value };
 
             if (Root == null)
             {
