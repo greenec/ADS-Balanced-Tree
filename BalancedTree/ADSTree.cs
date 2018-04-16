@@ -114,6 +114,36 @@ namespace BalancedTree
             return GetImbalancedNode(node?.Left) ?? GetImbalancedNode(node?.Right);
         }
 
+        public string ImbalanceType(ADSNode node)
+        {
+            if(node.LeftHeight > node.RightHeight)
+            {
+                node = node.Left;
+
+                if(node.LeftHeight > node.RightHeight)
+                {
+                    return "LL";
+                }
+                else
+                {
+                    return "LR";
+                }
+            }
+            else
+            {
+                node = node.Right;
+
+                if(node.LeftHeight > node.RightHeight)
+                {
+                    return "RL";
+                }
+                else
+                {
+                    return "RR";
+                }
+            }
+        }
+
         // Print the tree in a particular order
         public void PrintTree(TraverseOrder order)
         {
@@ -123,6 +153,11 @@ namespace BalancedTree
         public ADSNode GetRoot()
         {
             return Root;
+        }
+
+        public void SetRoot(ADSNode node)
+        {
+            Root = node;
         }
     }
 }
