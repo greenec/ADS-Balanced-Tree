@@ -22,25 +22,8 @@ namespace BalancedTree
                 if (imbalancedNode != null) // tree is not balanced
                 {
                     Console.WriteLine(imbalancedNode.Key);
-                    var imbalanceType = tree.ImbalanceType(imbalancedNode);
 
-                    // TODO: properly implement all rotation cases
-                    if(imbalanceType == "LR")
-                    {
-                        // do a left sub-rotation
-                        imbalancedNode.Left.Right.Left = imbalancedNode.Left;
-                        imbalancedNode.Left = imbalancedNode.Left.Right;
-
-                        //imbalancedNode.Left.Left = null;
-
-                        // do a right rotation
-                        if (tree.GetRoot() == imbalancedNode) // if the root is imbalanced
-                        {
-                            //tree.SetRoot(imbalancedNode.Left);
-                        }
-
-                        //tree.GetRoot().Right = tempNode;
-                    }
+                    tree.Balance();
 
                     // TODO: remove this later, all values will be inserted
                     break;

@@ -144,6 +144,35 @@ namespace BalancedTree
             }
         }
 
+        public void Balance()
+        {
+            var imbalancedNode = GetImbalancedNode(Root);
+            var imbalanceType = ImbalanceType(imbalancedNode);
+
+            // TODO: implement all rotation cases
+            if (imbalanceType == "LR")
+            {
+                // do a left sub-rotation
+                var tempNode = imbalancedNode.Left.Right;
+                imbalancedNode.Left.Right = null;
+
+                tempNode.Left = imbalancedNode.Left;
+                imbalancedNode.Left = null;
+
+                imbalancedNode.Left = tempNode;
+
+                // do a right rotation
+                tempNode = imbalancedNode.Left;
+                imbalancedNode.Left = null;
+
+                tempNode.Right = imbalancedNode;
+
+                // TODO: tempNode is properly balanced, but imbalanced node is not being reassigned properly
+                // imbalancedNode = tempNode;
+                Root = tempNode;
+            }
+        }
+
         // Print the tree in a particular order
         public void PrintTree(TraverseOrder order)
         {
