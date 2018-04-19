@@ -105,7 +105,6 @@ namespace BalancedTree
                 return null;
             }
 
-            // TODO: this isn't a height, it should be the number of children
             if (Math.Abs(node.LeftHeight - node.RightHeight) > 1)
             {
                 return node;
@@ -169,6 +168,43 @@ namespace BalancedTree
 
                 // TODO: tempNode is properly balanced, but imbalanced node is not being reassigned properly
                 // imbalancedNode = tempNode;
+                Root = tempNode;
+            }
+
+            if(imbalanceType == "LL")
+            {
+                var tempNode = imbalancedNode.Left;
+                imbalancedNode.Left = null;
+
+                tempNode.Right = imbalancedNode;
+
+                Root = tempNode;
+            }
+
+            if(imbalanceType == "RR")
+            {
+                var tempNode = imbalancedNode.Right;
+                imbalancedNode.Right = null;
+
+                tempNode.Left = imbalancedNode;
+
+                Root = tempNode;
+            }
+
+            if (imbalanceType == "RL")
+            {
+                // right sub-rotation
+                var tempNode = imbalancedNode.Right.Left;
+                imbalancedNode.Right.Left = null;
+
+                imbalancedNode.Right.Right = tempNode;
+
+                // left rotation
+                tempNode = imbalancedNode.Right;
+                imbalancedNode.Right = null;
+
+                tempNode.Left = imbalancedNode;
+
                 Root = tempNode;
             }
         }
