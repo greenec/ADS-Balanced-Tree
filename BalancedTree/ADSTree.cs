@@ -167,8 +167,7 @@ namespace BalancedTree
                 tempNode.Right = imbalancedNode;
 
                 // TODO: tempNode is properly balanced, but imbalanced node is not being reassigned properly
-                // imbalancedNode = tempNode;
-                Root = tempNode;
+                UpdateNode(imbalancedNode, tempNode);
             }
 
             if(imbalanceType == "LL")
@@ -178,7 +177,7 @@ namespace BalancedTree
 
                 tempNode.Right = imbalancedNode;
 
-                Root = tempNode;
+                UpdateNode(imbalancedNode, tempNode);
             }
 
             if(imbalanceType == "RR")
@@ -188,7 +187,7 @@ namespace BalancedTree
 
                 tempNode.Left = imbalancedNode;
 
-                Root = tempNode;
+                UpdateNode(imbalancedNode, tempNode);
             }
 
             if (imbalanceType == "RL")
@@ -205,7 +204,7 @@ namespace BalancedTree
 
                 tempNode.Left = imbalancedNode;
 
-                Root = tempNode;
+                UpdateNode(imbalancedNode, tempNode);
             }
         }
 
@@ -223,6 +222,13 @@ namespace BalancedTree
         public void SetRoot(ADSNode node)
         {
             Root = node;
+        }
+
+        private static void UpdateNode(ADSNode target, ADSNode data)
+        {
+            target.Key = data.Key;
+            target.Left = data.Left;
+            target.Right = data.Right;
         }
     }
 }
