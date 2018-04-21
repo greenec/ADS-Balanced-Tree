@@ -167,60 +167,51 @@ namespace BalancedTree
 
             if (imbalanceType == "LR")
             {
-                // do a left sub-rotation
-                var tempNode = imbalancedNode.Left.Right;
-                imbalancedNode.Left.Right = null;
+                // left sub-rotation
+                imbalancedNode.Left = LeftRotation(imbalancedNode.Left);
 
-                tempNode.Left = imbalancedNode.Left;
-                imbalancedNode.Left = null;
-
-                imbalancedNode.Left = tempNode;
-
-                // do a right rotation
-                tempNode = imbalancedNode.Left;
-                imbalancedNode.Left = null;
-
-                tempNode.Right = imbalancedNode;
-
-                imbalancedNode = tempNode;
+                // right rotation
+                imbalancedNode = RightRotation(imbalancedNode);
             }
 
             if (imbalanceType == "LL")
             {
-                var tempNode = imbalancedNode.Left;
-                imbalancedNode.Left = null;
-
-                tempNode.Right = imbalancedNode;
-
-                imbalancedNode = tempNode;
+                imbalancedNode = RightRotation(imbalancedNode);
             }
 
             if (imbalanceType == "RR")
             {
-                var tempNode = imbalancedNode.Right;
-                imbalancedNode.Right = null;
-
-                tempNode.Left = imbalancedNode;
-
-                imbalancedNode = tempNode;
+                imbalancedNode = LeftRotation(imbalancedNode);
             }
 
             if (imbalanceType == "RL")
             {
                 // right sub-rotation
-                var tempNode = imbalancedNode.Right.Left;
-                imbalancedNode.Right.Left = null;
-
-                imbalancedNode.Right.Right = tempNode;
+                imbalancedNode.Right = RightRotation(imbalancedNode.Right);
 
                 // left rotation
-                tempNode = imbalancedNode.Right;
-                imbalancedNode.Right = null;
-
-                tempNode.Left = imbalancedNode;
-
-                imbalancedNode = tempNode;
+                imbalancedNode = LeftRotation(imbalancedNode);
             }
+        }
+
+        private ADSNode RightRotation(ADSNode node)
+        {
+            var tempNode = node.Left;
+            node.Left = null;
+
+            tempNode.Right = node;
+
+            return tempNode;
+        }
+
+        private ADSNode LeftRotation(ADSNode node)
+        {
+            var tempNode = node.Right;
+            node.Right = null;
+
+            tempNode.Left = node;
+
+            return tempNode;
         }
 
         // Print the tree in a particular order
