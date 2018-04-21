@@ -50,7 +50,29 @@ namespace BalancedTree
         // Return the node where value is located
         public ADSNode Find(int value)
         {
-            return null;
+            ADSNode current = Root;
+
+            while (true)
+            {
+                if (current == null)
+                {
+                    return null;
+                }
+
+                if (value == current.Key)
+                {
+                    return current;
+                }
+
+                if (value < current.Key)
+                {
+                    current = current.Left;
+                }
+                else
+                {
+                    current = current.Right;
+                }
+            }
         }
 
         // Inserts a node into the tree and maintains it's balance
@@ -179,7 +201,7 @@ namespace BalancedTree
             if (node.LeftHeight > node.RightHeight)
             {
                 node = node.Left;
-                return node.LeftHeight > node.RightHeight ? "LL" : "RR";
+                return node.LeftHeight > node.RightHeight ? "LL" : "LR";
             }
             else
             {

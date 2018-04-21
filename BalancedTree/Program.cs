@@ -15,6 +15,8 @@ namespace BalancedTree
                 tree.Insert(value);
             }
 
+            var searchNode = tree.Find(20);
+
             tree.PrintTree(TraverseOrder.InOrder);
 
             Console.ReadLine();
