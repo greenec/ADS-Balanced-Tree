@@ -144,10 +144,27 @@ namespace BalancedTree
                 return ref node;
             }
 
-            // base case 2: we found the imbalanced node
+            // base case 2: we found an imbalanced node
             if (Math.Abs(node.LeftHeight - node.RightHeight) > 1)
             {
-                return ref node;
+                // TODO: make this recursive search prettier
+
+                // recursively search for a more specifc imbalanced node
+                ref var leftImbalChild = ref GetImbalancedNode(ref node.Left);
+                ref var rightImbalChild = ref GetImbalancedNode(ref node.Right);
+
+                if (leftImbalChild != null)
+                {
+                    return ref leftImbalChild;
+                }
+                else if (rightImbalChild != null)
+                {
+                    return ref rightImbalChild;
+                }
+                else
+                {
+                    return ref node;
+                }
             }
 
             // recursively traverse the left and the right branches
