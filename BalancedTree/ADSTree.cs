@@ -96,6 +96,46 @@ namespace BalancedTree
             this.Balance();
         }
 
+        private void Balance()
+        {
+            ref var imbalancedNode = ref GetImbalancedNode(ref Root);
+
+            if (imbalancedNode == null)
+            {
+                return;
+            }
+
+            var imbalanceType = ImbalanceType(imbalancedNode);
+
+            if (imbalanceType == "LR")
+            {
+                // left sub-rotation
+                imbalancedNode.Left = LeftRotation(imbalancedNode.Left);
+
+                // right rotation
+                imbalancedNode = RightRotation(imbalancedNode);
+            }
+
+            if (imbalanceType == "LL")
+            {
+                imbalancedNode = RightRotation(imbalancedNode);
+            }
+
+            if (imbalanceType == "RR")
+            {
+                imbalancedNode = LeftRotation(imbalancedNode);
+            }
+
+            if (imbalanceType == "RL")
+            {
+                // right sub-rotation
+                imbalancedNode.Right = RightRotation(imbalancedNode.Right);
+
+                // left rotation
+                imbalancedNode = LeftRotation(imbalancedNode);
+            }
+        }
+
         private ref ADSNode GetImbalancedNode(ref ADSNode node)
         {
             // base case 1: we hit the end of a branch
@@ -154,62 +194,22 @@ namespace BalancedTree
             }
         }
 
-        private void Balance()
+        private ADSNode RightRotation(ADSNode imbalancedNode)
         {
-            ref var imbalancedNode = ref GetImbalancedNode(ref Root);
+            var tempNode = imbalancedNode.Left;
+            imbalancedNode.Left = tempNode.Right;
 
-            if (imbalancedNode == null)
-            {
-                return;
-            }
-
-            var imbalanceType = ImbalanceType(imbalancedNode);
-
-            if (imbalanceType == "LR")
-            {
-                // left sub-rotation
-                imbalancedNode.Left = LeftRotation(imbalancedNode.Left);
-
-                // right rotation
-                imbalancedNode = RightRotation(imbalancedNode);
-            }
-
-            if (imbalanceType == "LL")
-            {
-                imbalancedNode = RightRotation(imbalancedNode);
-            }
-
-            if (imbalanceType == "RR")
-            {
-                imbalancedNode = LeftRotation(imbalancedNode);
-            }
-
-            if (imbalanceType == "RL")
-            {
-                // right sub-rotation
-                imbalancedNode.Right = RightRotation(imbalancedNode.Right);
-
-                // left rotation
-                imbalancedNode = LeftRotation(imbalancedNode);
-            }
-        }
-
-        private ADSNode RightRotation(ADSNode node)
-        {
-            var tempNode = node.Left;
-            node.Left = null;
-
-            tempNode.Right = node;
+            tempNode.Right = imbalancedNode;
 
             return tempNode;
         }
 
-        private ADSNode LeftRotation(ADSNode node)
+        private ADSNode LeftRotation(ADSNode imbalancedNode)
         {
-            var tempNode = node.Right;
-            node.Right = null;
+            var tempNode = imbalancedNode.Right;
+            imbalancedNode.Right = tempNode.Left;
 
-            tempNode.Left = node;
+            tempNode.Left = imbalancedNode;
 
             return tempNode;
         }
