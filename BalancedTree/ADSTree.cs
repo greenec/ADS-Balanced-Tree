@@ -23,24 +23,18 @@ namespace BalancedTree
             public ADSNode Right;
             public int Key;
             public int Cardinality; // Increment each time duplicates are added
-            public int Height
-            {
-                get
-                {
+            public int Height {
+                get {
                     return Math.Max(Left?.Height ?? -1, Right?.Height ?? -1) + 1;
                 }
             }
-            public int LeftHeight
-            {
-                get
-                {
+            public int LeftHeight {
+                get {
                     return (Left?.Height ?? -1) + 1;
                 }
             }
-            public int RightHeight
-            {
-                get
-                {
+            public int RightHeight {
+                get {
                     return (Right?.Height ?? -1) + 1;
                 }
             }
@@ -96,30 +90,45 @@ namespace BalancedTree
                     }
                 }
             }
+
+            this.Balance();
         }
 
-        public ADSNode GetImbalancedNode(ADSNode node)
+        public ref ADSNode GetImbalancedNode(ref ADSNode node)
         {
+            // base case 1: we hit the end of a branch
             if (node == null)
             {
-                return null;
+                return ref node;
             }
 
+            // base case 2: we found the imbalanced node
             if (Math.Abs(node.LeftHeight - node.RightHeight) > 1)
             {
-                return node;
+                return ref node;
             }
 
-            return GetImbalancedNode(node?.Left) ?? GetImbalancedNode(node?.Right);
+            // recursively traverse the left and the right branches
+            ref var leftImbal = ref GetImbalancedNode(ref node.Left);
+            ref var rightImbal = ref GetImbalancedNode(ref node.Right);
+
+            if (leftImbal != null)
+            {
+                return ref leftImbal;
+            }
+            else
+            {
+                return ref rightImbal;
+            }
         }
 
         public string ImbalanceType(ADSNode node)
         {
-            if(node.LeftHeight > node.RightHeight)
+            if (node.LeftHeight > node.RightHeight)
             {
                 node = node.Left;
 
-                if(node.LeftHeight > node.RightHeight)
+                if (node.LeftHeight > node.RightHeight)
                 {
                     return "LL";
                 }
@@ -132,7 +141,7 @@ namespace BalancedTree
             {
                 node = node.Right;
 
-                if(node.LeftHeight > node.RightHeight)
+                if (node.LeftHeight > node.RightHeight)
                 {
                     return "RL";
                 }
@@ -143,12 +152,17 @@ namespace BalancedTree
             }
         }
 
-        public void Balance()
+        private void Balance()
         {
-            var imbalancedNode = GetImbalancedNode(Root);
+            ref var imbalancedNode = ref GetImbalancedNode(ref Root);
+
+            if (imbalancedNode == null)
+            {
+                return;
+            }
+
             var imbalanceType = ImbalanceType(imbalancedNode);
 
-            // TODO: implement all rotation cases
             if (imbalanceType == "LR")
             {
                 // do a left sub-rotation
@@ -166,28 +180,27 @@ namespace BalancedTree
 
                 tempNode.Right = imbalancedNode;
 
-                // TODO: tempNode is properly balanced, but imbalanced node is not being reassigned properly
-                UpdateNode(imbalancedNode, tempNode);
+                imbalancedNode = tempNode;
             }
 
-            if(imbalanceType == "LL")
+            if (imbalanceType == "LL")
             {
                 var tempNode = imbalancedNode.Left;
                 imbalancedNode.Left = null;
 
                 tempNode.Right = imbalancedNode;
 
-                UpdateNode(imbalancedNode, tempNode);
+                imbalancedNode = tempNode;
             }
 
-            if(imbalanceType == "RR")
+            if (imbalanceType == "RR")
             {
                 var tempNode = imbalancedNode.Right;
                 imbalancedNode.Right = null;
 
                 tempNode.Left = imbalancedNode;
 
-                UpdateNode(imbalancedNode, tempNode);
+                imbalancedNode = tempNode;
             }
 
             if (imbalanceType == "RL")
@@ -204,7 +217,7 @@ namespace BalancedTree
 
                 tempNode.Left = imbalancedNode;
 
-                UpdateNode(imbalancedNode, tempNode);
+                imbalancedNode = tempNode;
             }
         }
 
@@ -212,23 +225,6 @@ namespace BalancedTree
         public void PrintTree(TraverseOrder order)
         {
 
-        }
-
-        public ADSNode GetRoot()
-        {
-            return Root;
-        }
-
-        public void SetRoot(ADSNode node)
-        {
-            Root = node;
-        }
-
-        private static void UpdateNode(ADSNode target, ADSNode data)
-        {
-            target.Key = data.Key;
-            target.Left = data.Left;
-            target.Right = data.Right;
         }
     }
 }
