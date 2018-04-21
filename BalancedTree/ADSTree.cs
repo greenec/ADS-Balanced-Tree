@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BalancedTree
 {
@@ -23,18 +19,24 @@ namespace BalancedTree
             public ADSNode Right;
             public int Key;
             public int Cardinality; // Increment each time duplicates are added
-            public int Height {
-                get {
+            public int Height
+            {
+                get
+                {
                     return Math.Max(Left?.Height ?? -1, Right?.Height ?? -1) + 1;
                 }
             }
-            public int LeftHeight {
-                get {
+            public int LeftHeight
+            {
+                get
+                {
                     return (Left?.Height ?? -1) + 1;
                 }
             }
-            public int RightHeight {
-                get {
+            public int RightHeight
+            {
+                get
+                {
                     return (Right?.Height ?? -1) + 1;
                 }
             }
