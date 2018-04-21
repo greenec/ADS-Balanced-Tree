@@ -96,7 +96,7 @@ namespace BalancedTree
             this.Balance();
         }
 
-        public ref ADSNode GetImbalancedNode(ref ADSNode node)
+        private ref ADSNode GetImbalancedNode(ref ADSNode node)
         {
             // base case 1: we hit the end of a branch
             if (node == null)
@@ -124,7 +124,7 @@ namespace BalancedTree
             }
         }
 
-        public string ImbalanceType(ADSNode node)
+        private string ImbalanceType(ADSNode node)
         {
             if (node.LeftHeight > node.RightHeight)
             {
