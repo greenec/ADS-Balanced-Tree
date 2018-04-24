@@ -19,13 +19,7 @@ namespace BalancedTree
             public ADSNode Right;
             public int Key;
             public int Cardinality; // Increment each time duplicates are added
-            public int Height
-            {
-                get
-                {
-                    return Math.Max(Left?.Height ?? -1, Right?.Height ?? -1) + 1;
-                }
-            }
+            public int Height;
             public int LeftHeight
             {
                 get
@@ -39,6 +33,10 @@ namespace BalancedTree
                 {
                     return (Right?.Height ?? -1) + 1;
                 }
+            }
+            public void RecalculateHeight()
+            {
+                Height = Math.Max(Left?.Height ?? -1, Right?.Height ?? -1) + 1;
             }
         }
 
@@ -75,6 +73,8 @@ namespace BalancedTree
             }
         }
 
+
+
         // Inserts a node into the tree and maintains its balance
         public void Insert(int value)
         {
@@ -86,47 +86,44 @@ namespace BalancedTree
                 return;
             }
 
-            ADSNode current = Root;
-            ADSNode parent;
-
-            while (true)
-            {
-                parent = current;
-
-                if (value < current.Key)
-                {
-                    current = current.Left;
-
-                    if (current == null)
-                    {
-                        parent.Left = newNode;
-                        break;
-                    }
-                }
-                else
-                {
-                    current = current.Right;
-
-                    if (current == null)
-                    {
-                        parent.Right = newNode;
-                        break;
-                    }
-                }
-            }
-
-            this.Balance();
+            InsertNode(ref Root, newNode);
         }
 
-        private void Balance()
+        private ADSNode InsertNode(ref ADSNode head, ADSNode data)
         {
-            ref var imbalancedNode = ref GetImbalancedNode(ref Root);
-
-            if (imbalancedNode == null)
+            if (head == null)
             {
-                return;
+                // do the insert
+                head = data;
+                return head;
             }
 
+            if (head.Key < data.Key)
+            {
+                head.Right = InsertNode(ref head.Right, data);
+            }
+            else
+            {
+                head.Left = InsertNode(ref head.Left, data);
+            }
+
+            // attempt to rebalance when bubbling up
+            if (Math.Abs(head.LeftHeight - head.RightHeight) > 1)
+            {
+                Balance(ref head);
+
+                // recalculate heights
+                head.Left?.RecalculateHeight();
+                head.Right?.RecalculateHeight();
+            }
+
+            head.RecalculateHeight();
+
+            return head;
+        }
+
+        private void Balance(ref ADSNode imbalancedNode)
+        {
             var imbalanceType = ImbalanceType(imbalancedNode);
 
             if (imbalanceType == "LR")
@@ -156,47 +153,6 @@ namespace BalancedTree
                 // left rotation
                 imbalancedNode = LeftRotation(imbalancedNode);
             }
-        }
-
-        private ref ADSNode GetImbalancedNode(ref ADSNode node)
-        {
-            // base case 1: we hit the end of a branch
-            if (node == null)
-            {
-                return ref node;
-            }
-
-            int leftHeight = node.LeftHeight;
-            int rightHeight = node.RightHeight;
-
-            // base case 2: we found an imbalanced node
-            if (Math.Abs(leftHeight - rightHeight) > 1)
-            {
-                // recursively search for a more specifc imbalanced node
-                if (leftHeight > rightHeight)
-                {
-                    ref var leftImbalChild = ref GetImbalancedNode(ref node.Left);
-
-                    if (leftImbalChild != null)
-                    {
-                        return ref leftImbalChild;
-                    }
-                }
-                else
-                {
-                    ref var rightImbalChild = ref GetImbalancedNode(ref node.Right);
-
-                    if (rightImbalChild != null)
-                    {
-                        return ref rightImbalChild;
-                    }
-                }
-
-                return ref node;
-            }
-
-            // recursively traverse the left or right branch
-            return ref (leftHeight > rightHeight ? ref GetImbalancedNode(ref node.Left) : ref GetImbalancedNode(ref node.Right));
         }
 
         private string ImbalanceType(ADSNode node)

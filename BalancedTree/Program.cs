@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace BalancedTree
 {
@@ -12,9 +13,19 @@ namespace BalancedTree
 
             foreach (int value in values)
             {
-                tree.Insert(value);
+                //tree.Insert(value);
             }
 
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            for (int i = 0; i < 30000; i++)
+            {
+                tree.Insert(i);
+            }
+
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            
             var searchNode = tree.Find(20);
 
             tree.PrintTree(TraverseOrder.InOrder);
