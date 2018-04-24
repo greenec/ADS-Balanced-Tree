@@ -182,7 +182,7 @@ namespace BalancedTree
                         return ref leftImbalChild;
                     }
                 }
-                else if (rightHeight > leftHeight)
+                else
                 {
                     ref var rightImbalChild = ref GetImbalancedNode(ref node.Right);
 
@@ -194,12 +194,9 @@ namespace BalancedTree
 
                 return ref node;
             }
-            
-            // recursively traverse the left and the right branches
-            ref var leftImbal = ref GetImbalancedNode(ref node.Left);
-            ref var rightImbal = ref GetImbalancedNode(ref node.Right);
 
-            return ref (leftImbal != null ? ref leftImbal : ref rightImbal);
+            // recursively traverse the left or right branch
+            return ref (leftHeight > rightHeight ? ref GetImbalancedNode(ref node.Left) : ref GetImbalancedNode(ref node.Right));
         }
 
         private string ImbalanceType(ADSNode node)
