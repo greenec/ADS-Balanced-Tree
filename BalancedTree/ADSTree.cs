@@ -20,6 +20,7 @@ namespace BalancedTree
             public T Key;
             public int Cardinality; // Increment each time duplicates are added
             public int Height;
+
             public int LeftHeight
             {
                 get
@@ -73,18 +74,10 @@ namespace BalancedTree
             }
         }
 
-
-
         // Inserts a node into the tree and maintains its balance
         public void Insert(T value)
         {
             var newNode = new ADSNode { Key = value };
-
-            if (Root == null)
-            {
-                Root = newNode;
-                return;
-            }
 
             InsertNode(ref Root, newNode);
         }
