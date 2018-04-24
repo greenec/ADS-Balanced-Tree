@@ -75,7 +75,7 @@ namespace BalancedTree
             }
         }
 
-        // Inserts a node into the tree and maintains it's balance
+        // Inserts a node into the tree and maintains its balance
         public void Insert(int value)
         {
             var newNode = new ADSNode { Key = value };
