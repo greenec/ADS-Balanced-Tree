@@ -185,23 +185,36 @@ namespace BalancedTree
         // Print the tree in a particular order
         public void PrintTree(TraverseOrder order)
         {
-            if (order == TraverseOrder.InOrder)
-            {
-                PrintInOrder(Root);
-                Console.WriteLine();
-            }
+
+            PrintRecursive(Root, order);
+            Console.WriteLine();
         }
 
-        private void PrintInOrder(ADSNode node)
+        private void PrintRecursive(ADSNode node, TraverseOrder order)
         {
             if (node == null)
             {
                 return;
             }
 
-            PrintInOrder(node.Left);
-            Console.Write(node.Key + " ");
-            PrintInOrder(node.Right);
+            if (order == TraverseOrder.PreOrder)
+            {
+                Console.Write(node.Key + " ");
+            }
+
+            PrintRecursive(node.Left, order);
+
+            if (order == TraverseOrder.InOrder)
+            {
+                Console.Write(node.Key + " ");
+            }
+
+            PrintRecursive(node.Right, order);
+
+            if (order == TraverseOrder.PostOrder)
+            {
+                Console.Write(node.Key + " ");
+            }
         }
     }
 }

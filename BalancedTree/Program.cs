@@ -16,7 +16,7 @@ namespace BalancedTree
                 tree.Insert(value);
             }
 
-            tree.PrintTree(TraverseOrder.InOrder);
+            tree.PrintTree(TraverseOrder.PostOrder);
 
             Console.ReadLine();
         }
