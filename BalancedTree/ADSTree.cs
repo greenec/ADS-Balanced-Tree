@@ -63,7 +63,7 @@ namespace BalancedTree
                     return current;
                 }
 
-                if (value.CompareTo(current.Key) < 0 )
+                if (value.CompareTo(current.Key) < 0)
                 {
                     current = current.Left;
                 }
@@ -77,7 +77,11 @@ namespace BalancedTree
         // Inserts a node into the tree and maintains its balance
         public void Insert(T value)
         {
-            var newNode = new ADSNode { Key = value };
+            var newNode = new ADSNode
+            {
+                Key = value,
+                Cardinality = 1
+            };
 
             InsertNode(ref Root, newNode);
         }
@@ -91,7 +95,12 @@ namespace BalancedTree
                 return head;
             }
 
-            if (head.Key.CompareTo(data.Key) < 0)
+            if (head.Key.CompareTo(data.Key) == 0)
+            {
+                head.Cardinality++;
+                return head;
+            }
+            else if (head.Key.CompareTo(data.Key) < 0)
             {
                 head.Right = InsertNode(ref head.Right, data);
             }
