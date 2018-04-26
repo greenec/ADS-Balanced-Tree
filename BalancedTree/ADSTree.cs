@@ -185,7 +185,6 @@ namespace BalancedTree
         // Print the tree in a particular order
         public void PrintTree(TraverseOrder order)
         {
-
             PrintRecursive(Root, order);
             Console.WriteLine();
         }
