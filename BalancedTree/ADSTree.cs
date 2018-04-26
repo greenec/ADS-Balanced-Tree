@@ -186,6 +186,38 @@ namespace BalancedTree
         public void PrintTree(TraverseOrder order)
         {
 
+            PrintRecursive(Root, order);
+            Console.WriteLine();
+        }
+
+        private void PrintRecursive(ADSNode node, TraverseOrder order)
+        {
+            if (node == null)
+            {
+                return;
+            }
+
+            // used to output a tree to be loaded again without rebalancing
+            if (order == TraverseOrder.PreOrder)
+            {
+                Console.Write(node.Key + " ");
+            }
+
+            PrintRecursive(node.Left, order);
+
+            // used to print a tree for readability
+            if (order == TraverseOrder.InOrder)
+            {
+                Console.Write(node.Key + " ");
+            }
+
+            PrintRecursive(node.Right, order);
+
+            // used to print a tree to be deleted efficeintly
+            if (order == TraverseOrder.PostOrder)
+            {
+                Console.Write(node.Key + " ");
+            }
         }
     }
 }
