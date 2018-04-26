@@ -9,7 +9,7 @@ namespace BalancedTree
         PostOrder
     }
 
-    class ADSTree
+    class ADSTree<T> where T : IComparable<T>
     {
         private ADSNode Root;
 
@@ -17,7 +17,7 @@ namespace BalancedTree
         {
             public ADSNode Left;
             public ADSNode Right;
-            public int Key;
+            public T Key;
             public int Cardinality; // Increment each time duplicates are added
             public int Height;
 
@@ -47,7 +47,7 @@ namespace BalancedTree
         }
 
         // Return the node where value is located
-        public ADSNode Find(int value)
+        public ADSNode Find(T value)
         {
             ADSNode current = Root;
 
@@ -58,12 +58,12 @@ namespace BalancedTree
                     return null;
                 }
 
-                if (value == current.Key)
+                if (value.CompareTo(current.Key) == 0)
                 {
                     return current;
                 }
 
-                if (value < current.Key)
+                if (value.CompareTo(current.Key) < 0 )
                 {
                     current = current.Left;
                 }
@@ -75,7 +75,7 @@ namespace BalancedTree
         }
 
         // Inserts a node into the tree and maintains its balance
-        public void Insert(int value)
+        public void Insert(T value)
         {
             var newNode = new ADSNode { Key = value };
 
@@ -91,7 +91,7 @@ namespace BalancedTree
                 return head;
             }
 
-            if (head.Key < data.Key)
+            if (head.Key.CompareTo(data.Key) < 0)
             {
                 head.Right = InsertNode(ref head.Right, data);
             }
@@ -185,7 +185,6 @@ namespace BalancedTree
         // Print the tree in a particular order
         public void PrintTree(TraverseOrder order)
         {
-
             PrintRecursive(Root, order);
             Console.WriteLine();
         }
