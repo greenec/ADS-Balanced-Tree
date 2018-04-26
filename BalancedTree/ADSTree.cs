@@ -197,6 +197,7 @@ namespace BalancedTree
                 return;
             }
 
+            // used to output a tree to be loaded again without rebalancing
             if (order == TraverseOrder.PreOrder)
             {
                 Console.Write(node.Key + " ");
@@ -204,6 +205,7 @@ namespace BalancedTree
 
             PrintRecursive(node.Left, order);
 
+            // used to print a tree for readability
             if (order == TraverseOrder.InOrder)
             {
                 Console.Write(node.Key + " ");
@@ -211,6 +213,7 @@ namespace BalancedTree
 
             PrintRecursive(node.Right, order);
 
+            // used to print a tree to be deleted efficeintly
             if (order == TraverseOrder.PostOrder)
             {
                 Console.Write(node.Key + " ");
