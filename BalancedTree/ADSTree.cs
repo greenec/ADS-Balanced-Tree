@@ -95,12 +95,13 @@ namespace BalancedTree
                 return head;
             }
 
-            if (head.Key.CompareTo(data.Key) == 0)
+            int keyComparison = head.Key.CompareTo(data.Key);
+            if (keyComparison == 0)
             {
                 head.Cardinality++;
                 return head;
             }
-            else if (head.Key.CompareTo(data.Key) < 0)
+            else if (keyComparison < 0)
             {
                 head.Right = InsertNode(ref head.Right, data);
             }
